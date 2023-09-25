@@ -12,7 +12,7 @@ include("class/User.php");
 <html lang="fr">
 
 <head>
-    <title>Connexion</title>
+    <title>Inscription</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -43,34 +43,18 @@ include("class/User.php");
 
     <?php
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+
     $User = new User(null, null, null);
 
     if (isset($_POST["envoi"])) {
+        $User->CreateNewUser($_POST["login"], $_POST["password"], $_POST["nom"]);
+    }
 
-        $User->seConnecter($_POST["login"], $_POST["password"]);
-
-
-        if ($User->seConnecter($_POST["login"], $_POST["password"])) {
-
-            header("Location: mainPage.php");
-        }
+    if ($User->isConnect()) {
+        header("Location: mainPage.php");
     }
 
     ?>
-    <!-- <div>
-        <div>
-            <label for="login">Nom d'utilisateur : </label>
-            <input name="login" type="text">
-        </div>
-        <div>
-            <label for="password">Mot de passe : </label>
-            <input name="password" type="password">
-        </div>
-        <div>
-            <input name="envoi" value="Connecter" type="submit">
-        </div>
-
-    </div> -->
 
     <form action="" method="post">
 
@@ -79,18 +63,29 @@ include("class/User.php");
                 <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
                     <form class="login100-form validate-form">
                         <span class="login100-form-title p-b-49">
-                            Login
+                            Inscription
                         </span>
 
                         <div class="wrap-input100 validate-input m-b-23" data-validate="Email requis">
-                            <span class="label-input100">Email :</span>
+                            <span class="label-input100">Saisissez votre email :</span>
                             <input class="input100" type="text" name="login" placeholder="Entrez votre email">
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Nom requis">
+                            <span class="label-input100">Saisissez votre nom :</span>
+                            <input class="input100" type="text" name="nom" placeholder="Entrez votre nom">
                             <span class="focus-input100" data-symbol="&#xf206;"></span>
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
-                            <span class="label-input100">Mot de passe : </span>
+                            <span class="label-input100">Créez votre mot de passe : </span>
                             <input class="input100" type="password" name="password" placeholder="Entrez votre mot de passe">
+                            <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
+                            <span class="label-input100">Confirmer votre mot de passe : </span>
+                            <input class="input100" type="password" name="confirmPassword" placeholder="Entrez votre mot de passe">
                             <span class="focus-input100" data-symbol="&#xf190;"></span>
                         </div>
 
