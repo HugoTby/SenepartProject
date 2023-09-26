@@ -32,6 +32,11 @@ include("class/User.php");
     if (!$User->isConnect()) {
         header("Location: index.php");
     }
+
+    $sql = "SELECT nom FROM user WHERE id = '" . $User->getId() . "'"; // Remplacez 'id' par la colonne appropriée utilisée pour identifier l'utilisateur
+    $resultServ = $GLOBALS["pdo"]->query($sql);
+    $userData = $resultServ->fetch();
+
     ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-info p-3">
@@ -88,6 +93,8 @@ include("class/User.php");
             </div>
         </div>
     </nav>
+
+    <p class="mt-4" style="margin: 20px;">Nom : <?php echo "nom"; ?></p>
 
 
     <!-- Adding the Proviflix button -->

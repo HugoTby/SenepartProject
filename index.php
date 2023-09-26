@@ -102,7 +102,15 @@ include("class/User.php");
                                 <div class="login100-form-bgbtn"></div>
                                 <button name="envoi" type="submit" class="login100-form-btn">
                                     Connexion
-                                </button>
+                                </button></div>
+                                <div class="container-login100-form-btn m-t-20">
+    <div class="wrap-login100-form-btn">
+        <div class="login100-form-bgbtn"></div>
+        <a href="inscription.php" class="login100-form-btn">
+            Inscription
+        </a>
+    </div>
+</div>
 
                             </div>
                         </div>
@@ -113,6 +121,7 @@ include("class/User.php");
             </div>
         </div>
     </form>
+    
 
 
 
