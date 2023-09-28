@@ -13,10 +13,11 @@ include("class/User.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-    <title>Compte</title>
+    <title>Changer mot de passe</title>
 
 
 </head>
@@ -38,6 +39,8 @@ include("class/User.php");
     $userData = $resultServ->fetch();
     $nomUtilisateur = $userData['nom'];
     $emailUtilisateur = $userData['email'];
+    $passUtilisateur = $userData['password'];
+
 
 
     ?>
@@ -97,18 +100,64 @@ include("class/User.php");
         </div>
     </nav>
 
-    <p class="mt-4" style="margin: 20px;">Nom : <?php echo $nomUtilisateur; ?></p>
-    <p class="mt-4" style="margin: 20px;">Mail : <?php echo $emailUtilisateur; ?></p>
 
-    <span style="margin:20px">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'changePass.php'">Modifier le mot de passe</button>
-</span>
+    <div class="container">
+        <h2>Changer le mot de passe</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="old_password">Ancien mot de passe :</label>
+                <input type="password" class="form-control" id="old_password" name="old_password" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password">Nouveau mot de passe :</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirmez le nouveau mot de passe :</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit" name="envoi" class="btn btn-primary">Changer le mot de passe</button>
+        </form>
+    
 
+    <?php
+    if (isset($_POST["envoi"])) {
+        // Récupérer les valeurs du formulaire
+        $oldPassword = $_POST["old_password"];
+        $newPassword = $_POST["new_password"];
+        $confirmPassword = $_POST["confirm_password"];
 
-
-
-
-    <!-- Adding the Proviflix button -->
+        // Vérifier si le nouveau mot de passe et la confirmation sont identiques
+        if ($newPassword !== $confirmPassword) {
+            // echo "<br><span style='display: block; text-align: center; background-color: #ff0000; color: #ffffff; padding: 5px;width: 300px;border-radius:5px;margin-left:50%;'>Les mots de passe ne correspondent pas.</span>";
+            echo "       
+            <div style='width:520px;margin-top:10px;' class='alert alert-dismissible alert-danger'> 
+                <strong>Oh non!</strong> Les mots de passe ne correspondent pas.
+            </div>  
+            ";
+        } else {
+            // Vérifier si l'ancien mot de passe est correct
+            if ($oldPassword == $passUtilisateur) {
+                // Mettre à jour le mot de passe dans la base de données
+                $User->setPassword($newPassword); // Vous devrez implémenter cette méthode dans votre classe User
+                // echo "<br><span style='display: block; text-align: center; background-color: #ff0000; color: #ffffff; padding: 5px;width: 300px;border-radius:5px;margin-left:50%;'>Le mot de passe a été changé avec succès.</span>";
+                echo "
+                <div style='width:520px;margin-top:10px;' class='alert alert-dismissible alert-success'>
+                    <strong>C'est fait!</strong> Le mot de passe a été changé avec succès.</a>.
+                </div>
+                ";
+            } else {
+                //echo "<br><span style='display: block; text-align: center; background-color: #0cff00; color: #ffffff; padding: 5px;width: 300px;border-radius:5px;margin-left:50%;'>L'ancien mot de passe est incorrect.</span>";
+                echo "       
+                <div style='width:520px;margin-top:10px;' class='alert alert-dismissible alert-danger'> 
+                    <strong>Oh non!</strong> L'ancien mot de passe est incorrect.
+                </div>  
+                ";
+            }
+        }
+    }
+    ?>
+</div>
 
 </body>
 
