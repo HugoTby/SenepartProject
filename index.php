@@ -41,22 +41,31 @@ include("class/User.php");
 
 <body>
 
-    <?php
-    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
-    $User = new User(null, null, null);
+<?php
+$GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+$User = new User(null, null, null);
+$errorMessage = ""; // Variable pour stocker le message d'erreur
 
-    if (isset($_POST["envoi"])) {
+if (isset($_POST["envoi"])) {
 
-        $User->seConnecter($_POST["login"], $_POST["password"]);
-
-
-        if ($User->seConnecter($_POST["login"], $_POST["password"])) {
-
+    // Vérification du format d'email 
+/*    if (!filter_var($_POST["login"], FILTER_VALIDATE_EMAIL)) {
+        $errorMessage = "Format d'email incorrect.";
+    } else {
+ */       if ($User->seConnecter($_POST["login"], $_POST["password"])) {
             header("Location: mainPage.php");
+            exit; // Il est recommandé d'utiliser exit après header pour empêcher l'exécution de code supplémentaire
+        } else {
+            $errorMessage = "Email ou mot de passe incorrect.";
         }
     }
+//}
+?>
 
-    ?>
+<!-- Vous pouvez ensuite afficher $errorMessage où vous le souhaitez dans votre code HTML -->
+
+
+
     <!-- <div>
         <div>
             <label for="login">Nom d'utilisateur : </label>
@@ -109,8 +118,15 @@ include("class/User.php");
         <a href="inscription.php" class="login100-form-btn">
             Inscription
         </a>
+        
     </div>
+    <?php if (!empty($errorMessage)): ?>
+    <div class="error">
+        <?php echo $errorMessage; ?>
+    </div>
+<?php endif; ?>
 </div>
+
 
                             </div>
                         </div>

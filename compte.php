@@ -15,6 +15,7 @@ include("class/User.php");
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Compte</title>
 
@@ -97,18 +98,132 @@ include("class/User.php");
         </div>
     </nav>
 
-    <p class="mt-4" style="margin: 20px;">Nom : <?php echo $nomUtilisateur; ?></p>
-    <p class="mt-4" style="margin: 20px;">Mail : <?php echo $emailUtilisateur; ?></p>
+    <p class="mt-4" style="margin: 20px;">Nom :
+
+        <span id="nomUtilisateur" contenteditable="false"><?php echo $nomUtilisateur; ?></span>
+        <i class="fa fa-pencil" id="modifierNom"></i>
+    </p>
+
+
+    <p class="mt-4" style="margin: 20px;">Mail :
+
+        <span id="emailUtilisateur" contenteditable="false"><?php echo $emailUtilisateur; ?></span>
+        <i class="fa fa-pencil" id="modifierEmail"></i>
+    </p>
 
     <span style="margin:20px">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'changePass.php'">Modifier le mot de passe</button>
-</span>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href = 'changePass.php'">Modifier le mot de passe</button>
+    </span>
 
 
 
 
 
-    <!-- Adding the Proviflix button -->
+    <script>
+        const nomUtilisateurSpan = document.getElementById('nomUtilisateur');
+        const modifierNomIcon = document.getElementById('modifierNom');
+
+        modifierNomIcon.addEventListener('click', () => {
+            if (nomUtilisateurSpan.contentEditable === 'false') {
+                // Activer l'édition
+                nomUtilisateurSpan.contentEditable = 'true';
+                nomUtilisateurSpan.focus();
+                // Changer l'icône en icône de validation
+                modifierNomIcon.classList.remove('fa-pencil');
+                modifierNomIcon.classList.add('fa-check');
+            } else {
+                // Désactiver l'édition
+                nomUtilisateurSpan.contentEditable = 'false';
+                // Changer l'icône en icône de modification
+                modifierNomIcon.classList.remove('fa-check');
+                modifierNomIcon.classList.add('fa-pencil');
+
+                // Récupérer le nouveau nom d'utilisateur
+                const nouveauNom = nomUtilisateurSpan.textContent;
+
+
+                // Envoyer une requête Fetch pour mettre à jour le nom d'utilisateur
+                fetch('update_user.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'nouveauNom=' + encodeURIComponent(nouveauNom),
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            return response.text();
+                        } else {
+                            throw new Error('Erreur lors de la mise à jour du nom d\'utilisateur');
+                        }
+                    })
+                    .then(data => {
+                        // La mise à jour a été effectuée avec succès
+                        console.log('Nom d\'utilisateur mis à jour : ' + nouveauNom);
+                    })
+                    .catch(error => {
+                        console.error('Erreur : ' + error.message);
+                    });
+
+            }
+        });
+
+        // ... (Gestion de la sauvegarde lors de la perte de focus et de la touche Entrée)
+    </script>
+
+    <script>
+        const emailUtilisateurSpan = document.getElementById('emailUtilisateur');
+        const modifierEmailIcon = document.getElementById('modifierEmail');
+
+        modifierEmailIcon.addEventListener('click', () => {
+            if (emailUtilisateurSpan.contentEditable === 'false') {
+                // Activer l'édition
+                emailUtilisateurSpan.contentEditable = 'true';
+                emailUtilisateurSpan.focus();
+                // Changer l'icône en icône de validation
+                modifierEmailIcon.classList.remove('fa-pencil');
+                modifierEmailIcon.classList.add('fa-check');
+            } else {
+                // Désactiver l'édition
+                emailUtilisateurSpan.contentEditable = 'false';
+                // Changer l'icône en icône de modification
+                modifierEmailIcon.classList.remove('fa-check');
+                modifierEmailIcon.classList.add('fa-pencil');
+
+                // Récupérer le nouveau nom d'utilisateur
+                const nouveauEmail = emailUtilisateurSpan.textContent;
+
+
+                // Envoyer une requête Fetch pour mettre à jour le nom d'utilisateur
+                fetch('update_user.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'nouveauEmail=' + encodeURIComponent(nouveauEmail),
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            return response.text();
+                        } else {
+                            throw new Error('Erreur lors de la mise à jour du nom d\'utilisateur');
+                        }
+                    })
+                    .then(data => {
+                        // La mise à jour a été effectuée avec succès
+                        console.log('Nom d\'utilisateur mis à jour : ' + nouveauEmail);
+                    })
+                    .catch(error => {
+                        console.error('Erreur : ' + error.message);
+                    });
+
+            }
+        });
+    </script>
+
+
+
+
 
 </body>
 

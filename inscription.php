@@ -41,20 +41,44 @@ include("class/User.php");
 
 <body>
 
-    <?php
-    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+<?php
+$GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
 
-    $User = new User(null, null, null);
+$User = new User(null, null, null);
+$errorMsg = '';
 
-    if (isset($_POST["envoi"])) {
-        $User->CreateNewUser($_POST["login"], $_POST["password"], $_POST["nom"]);
+if (isset($_POST["envoi"])) {
+    $email = $_POST["login"];
+    $password = $_POST["password"];
+    $confirmPassword = $_POST["confirmPassword"];
+    $nom = $_POST["nom"];
+
+    // Vérification de la validité de l'adresse e-mail
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errorMsg = "Adresse e-mail invalide!";
+    } 
+    // Vérification si les deux mots de passe sont identiques
+    elseif ($password !== $confirmPassword) {
+        $errorMsg = "Les mots de passe ne correspondent pas!";
     }
-
+    // Vérification si l'email est déjà inscrit
+    else {
+        $stmt = $GLOBALS["pdo"]->prepare("SELECT * FROM user WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            $errorMsg = "Adresse e-mail déjà utilisée!";
+        }
+        else {
+            $User->CreateNewUser($email, $password, $nom);
+        }
+    }
+    
     if ($User->isConnect()) {
         header("Location: mainPage.php");
     }
+}
 
-    ?>
+?>
 
     <form action="" method="post">
 
@@ -67,27 +91,28 @@ include("class/User.php");
                         </span>
 
                         <div class="wrap-input100 validate-input m-b-23" data-validate="Email requis">
-                            <span class="label-input100">Saisissez votre email :</span>
-                            <input class="input100" type="text" name="login" placeholder="Entrez votre email">
-                            <span class="focus-input100" data-symbol="&#xf206;"></span>
-                        </div>
-                        <div class="wrap-input100 validate-input m-b-23" data-validate="Nom requis">
-                            <span class="label-input100">Saisissez votre nom :</span>
-                            <input class="input100" type="text" name="nom" placeholder="Entrez votre nom">
-                            <span class="focus-input100" data-symbol="&#xf206;"></span>
-                        </div>
+    <span class="label-input100">Saisissez votre email :</span>
+    <input class="input100" type="text" name="login" placeholder="Entrez votre email" value="<?php echo isset($_POST['login']) ? htmlspecialchars($_POST['login']) : ''; ?>">
+    <span class="focus-input100" data-symbol="&#xf206;"></span>
+</div>
+<div class="wrap-input100 validate-input m-b-23" data-validate="Nom requis">
+    <span class="label-input100">Saisissez votre nom :</span>
+    <input class="input100" type="text" name="nom" placeholder="Entrez votre nom" value="<?php echo isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : ''; ?>">
+    <span class="focus-input100" data-symbol="&#xf206;"></span>
+</div>
 
-                        <div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
-                            <span class="label-input100">Créez votre mot de passe : </span>
-                            <input class="input100" type="password" name="password" placeholder="Entrez votre mot de passe">
-                            <span class="focus-input100" data-symbol="&#xf190;"></span>
-                        </div>
+<div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
+    <span class="label-input100">Créez votre mot de passe : </span>
+    <input class="input100" type="password" name="password" placeholder="Entrez votre mot de passe">
+    <span class="focus-input100" data-symbol="&#xf190;"></span>
+</div>
 
-                        <div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
-                            <span class="label-input100">Confirmer votre mot de passe : </span>
-                            <input class="input100" type="password" name="confirmPassword" placeholder="Entrez votre mot de passe">
-                            <span class="focus-input100" data-symbol="&#xf190;"></span>
-                        </div>
+<div class="wrap-input100 validate-input" data-validate="Mot de passe requis">
+    <span class="label-input100">Confirmer votre mot de passe : </span>
+    <input class="input100" type="password" name="confirmPassword" placeholder="Entrez votre mot de passe">
+    <span class="focus-input100" data-symbol="&#xf190;"></span>
+</div>
+
 
                         <div class="text-right p-t-8 p-b-31">
                         </div>
@@ -97,13 +122,29 @@ include("class/User.php");
                                 <div class="login100-form-bgbtn"></div>
                                 <button name="envoi" type="submit" class="login100-form-btn">
                                     Connexion
-                                </button>
-
-                            </div>
+                                </button></div>
+                                <div class="container-login100-form-btn m-t-20">
+    <div class="wrap-login100-form-btn">
+        <div class="login100-form-bgbtn"></div>
+        <a href="index.php" class="login100-form-btn">
+            Déjà Inscrit ? Connectez-vous !
+        </a>
+        
+    </div>
+         
+        
+    </div>
                         </div>
 
 
                     </form>
+                    <?php
+// Afficher les erreurs
+if($errorMsg) {
+    echo "<p style='color:red;'>$errorMsg</p>";
+}
+?>
+
                 </div>
             </div>
         </div>
