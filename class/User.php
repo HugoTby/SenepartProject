@@ -7,20 +7,18 @@ class User
     private $nom_;
     private $email_;
     private $password_;
+    private $isAdmin_;
 
-    public function __construct($id, $nom, $email)
+    public function __construct($id, $nom, $email, $admin)
     {
         $this->id_ = $id;
         $this->nom_ = $nom;
         $this->email_ = $email;
+        $this->isAdmin_ = $admin;
     }
 
-    //fonction pour se connecter à un utilisateur en fonction du nom et prenom
     public function seConnecter($email, $pass)
     {
-
-        //$newpass = hash('sha256', $pass);
-        //$newpass = password_verify($pass, PASSWORD_DEFAULT);
         $requete = "SELECT * FROM `user` 
         WHERE
         `email` = '" . $email . "'
@@ -36,8 +34,8 @@ class User
             $this->id_ = $tab['id'];
             $this->nom_ = $tab['nom'];
             $this->email_ = $tab['email'];
-
-
+            $this->isAdmin_ = $tab['isAdmin'] == 1 ? true : false;
+    
             return true;
         } else {
             return false;
@@ -75,6 +73,7 @@ class User
             if ($tab = $resultat->fetch()) {
                 $this->email_ = $tab['email'];
                 $this->id_ = $tab['id'];
+                $this->isAdmin_ = $tab['isAdmin'] == 1 ? true : false;
                 return true;
             }
         } else {
@@ -115,5 +114,9 @@ class User
         $result = $GLOBALS["pdo"]->query($query);
 
         // Executez la requête avec les paramètres.
+    }
+    public function isAdmin()
+    {
+        return $this->isAdmin_;
     }
 }

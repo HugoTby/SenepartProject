@@ -14,8 +14,6 @@ include("class/User.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -34,7 +32,7 @@ include("class/User.php");
 
     <?php
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
-    $User = new User(null, null, null);
+    $User = new User(null, null, null, null);
 
     if (!$User->isConnect()) {
         header("Location: index.php");
@@ -101,33 +99,25 @@ include("class/User.php");
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </a>
+            <div> <a href="mainPage.php" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Appli GPS</span> </a>
                 <div class="nav_list">
-                    <a href="#" class="nav_link active">
+                    <a href="mainPage.php" class="nav_link active">
                         <i class='bx bx-grid-alt nav_icon'></i>
-                        <span class="nav_name">Dashboard</span>
+                        <span class="nav_name">Home</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    <a href="compte.php" class="nav_link">
                         <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">Users</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-message-square-detail nav_icon'></i>
-                        <span class="nav_name">Messages</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bookmark nav_icon'></i>
-                        <span class="nav_name">Bookmark</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-folder nav_icon'></i>
-                        <span class="nav_name">Files</span>
-                    </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                        <span class="nav_name">Stats</span>
+                        <span class="nav_name">Compte</span>
                     </a>
                 </div>
+                <?php
+if($User->isAdmin()) {
+    echo '<a href="panelAdmin.php" class="nav_link">
+        <i class="bx bx-cog nav_icon"></i>
+        <span class="nav_name">Panel Admin</span>
+    </a>';
+}
+?>
             </div> <a href="logout.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
         </nav>
     </div>
@@ -138,17 +128,12 @@ include("class/User.php");
 
     <script>
         // Créez une instance de carte et liez-la au conteneur "map"
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([49.8951, 2.3022], 13);
 
         // Ajoutez une couche de tuiles OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-
-        // Ajoutez un marqueur
-        L.marker([51.5, -0.09]).addTo(map)
-            .bindPopup('Ceci est un marqueur Leaflet.')
-            .openPopup();
     </script>
 
     <script>

@@ -43,7 +43,7 @@ include("class/User.php");
 
 <?php
 $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
-$User = new User(null, null, null);
+$User = new User(null, null, null, null);
 $errorMessage = ""; // Variable pour stocker le message d'erreur
 
 if (isset($_POST["envoi"])) {
