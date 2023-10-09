@@ -29,9 +29,13 @@ include("class/User.php");
 
 
     <?php
+    //connexion a la bdd
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+
+    //création de l'objet User
     $User = new User(null, null, null,  null);
 
+    //redirection vers connexion si on est pas connecté
     if (!$User->isConnect()) {
         header("Location: index.php");
     }
@@ -44,191 +48,188 @@ include("class/User.php");
 
 
     if (!$User->isAdmin()) {
-        header("Location: log.php");
+        header("Location: logout.php");
     }
 
-   
+
     if (!$User->isAdmin()) {
         echo "L'utilisateur n'est pas administrateur."; // Affichez un message de débogage
     }
 
 
     ?>
-    <?php if($User->isAdmin()){  ?>
-    <header class="header" id="header">
-        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-    </header>
-    <div class="l-navbar" id="nav-bar">
-        <nav class="nav">
-            <div> <a href="mainPage.php" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Appli GPS</span> </a>
-                <div class="nav_list">
-                    <a href="mainPage.php" class="nav_link active">
-                        <i class='bx bx-grid-alt nav_icon'></i>
-                        <span class="nav_name">Home</span>
-                    </a>
-                    <a href="compte.php" class="nav_link">
-                        <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">Compte</span>
-                    </a>
-                </div>
-                <?php
-                if ($User->isAdmin()) {
-                    echo '<a href="panelAdmin.php" class="nav_link">
+    <?php if ($User->isAdmin()) {  ?>
+        <header class="header" id="header">
+            <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+        </header>
+        <div class="l-navbar" id="nav-bar">
+            <nav class="nav">
+                <div> <a href="mainPage.php" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Appli GPS</span> </a>
+                    <div class="nav_list">
+                        <a href="mainPage.php" class="nav_link active">
+                            <i class='bx bx-grid-alt nav_icon'></i>
+                            <span class="nav_name">Home</span>
+                        </a>
+                        <a href="compte.php" class="nav_link">
+                            <i class='bx bx-user nav_icon'></i>
+                            <span class="nav_name">Compte</span>
+                        </a>
+                    </div>
+                    <?php
+                    if ($User->isAdmin()) {
+                        echo '<a href="panelAdmin.php" class="nav_link">
         <i class="bx bx-cog nav_icon"></i>
         <span class="nav_name">Panel Admin</span>
     </a>';
+                    }
+                    ?>
+                </div> <a href="logout.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+            </nav>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+
+                const showNavbar = (toggleId, navId, bodyId, headerId) => {
+                    const toggle = document.getElementById(toggleId),
+                        nav = document.getElementById(navId),
+                        bodypd = document.getElementById(bodyId),
+                        headerpd = document.getElementById(headerId)
+
+                    // Validate that all variables exist
+                    if (toggle && nav && bodypd && headerpd) {
+                        toggle.addEventListener('click', () => {
+                            // show navbar
+                            nav.classList.toggle('show')
+                            // change icon
+                            toggle.classList.toggle('bx-x')
+                            // add padding to body
+                            bodypd.classList.toggle('body-pd')
+                            // add padding to header
+                            headerpd.classList.toggle('body-pd')
+                        })
+                    }
                 }
-                ?>
-            </div> <a href="logout.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
-        </nav>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
 
-            const showNavbar = (toggleId, navId, bodyId, headerId) => {
-                const toggle = document.getElementById(toggleId),
-                    nav = document.getElementById(navId),
-                    bodypd = document.getElementById(bodyId),
-                    headerpd = document.getElementById(headerId)
+                showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
 
-                // Validate that all variables exist
-                if (toggle && nav && bodypd && headerpd) {
-                    toggle.addEventListener('click', () => {
-                        // show navbar
-                        nav.classList.toggle('show')
-                        // change icon
-                        toggle.classList.toggle('bx-x')
-                        // add padding to body
-                        bodypd.classList.toggle('body-pd')
-                        // add padding to header
-                        headerpd.classList.toggle('body-pd')
-                    })
+                /*===== LINK ACTIVE =====*/
+                const linkColor = document.querySelectorAll('.nav_link')
+
+                function colorLink() {
+                    if (linkColor) {
+                        linkColor.forEach(l => l.classList.remove('active'))
+                        this.classList.add('active')
+                    }
                 }
-            }
+                linkColor.forEach(l => l.addEventListener('click', colorLink))
 
-            showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
-
-            /*===== LINK ACTIVE =====*/
-            const linkColor = document.querySelectorAll('.nav_link')
-
-            function colorLink() {
-                if (linkColor) {
-                    linkColor.forEach(l => l.classList.remove('active'))
-                    this.classList.add('active')
-                }
-            }
-            linkColor.forEach(l => l.addEventListener('click', colorLink))
-
-            // Your code to run since DOM is loaded and ready
-        });
-    </script>
-
-    <script>
-        // JavaScript
-        document.addEventListener("DOMContentLoaded", function(event) {
-            const navBar = document.getElementById('nav-bar');
-            const headerToggle = document.getElementById('header-toggle');
-            let menuOpen = false;
-
-            // Gérez l'événement de survol de la souris
-            navBar.addEventListener('mouseenter', function() {
-                // Vérifiez si le menu est actuellement replié
-                if (!menuOpen) {
-                    // Activez le basculement du menu en cliquant sur l'icône de bascule
-                    headerToggle.click();
-                    // Marquez le menu comme déplié
-                    menuOpen = true;
-                }
+                // Your code to run since DOM is loaded and ready
             });
+        </script>
 
-            // Gérez l'événement de quitter la zone du menu
-            navBar.addEventListener('mouseleave', function() {
-                // Vérifiez si le menu est actuellement déplié
-                if (menuOpen) {
-                    // Activez à nouveau le basculement du menu en cliquant sur l'icône de bascule
-                    headerToggle.click();
-                    // Marquez le menu comme replié
-                    menuOpen = false;
-                }
-            });
+        <script>
+            // JavaScript
+            document.addEventListener("DOMContentLoaded", function(event) {
+                const navBar = document.getElementById('nav-bar');
+                const headerToggle = document.getElementById('header-toggle');
+                let menuOpen = false;
 
-            // Gérez l'événement du clic sur l'icône de bascule
-            headerToggle.addEventListener('click', function() {
-                // Inversez l'état du menu (déplié ou replié)
-                menuOpen = !menuOpen;
+                // Gérez l'événement de survol de la souris
+                navBar.addEventListener('mouseenter', function() {
+                    // Vérifiez si le menu est actuellement replié
+                    if (!menuOpen) {
+                        // Activez le basculement du menu en cliquant sur l'icône de bascule
+                        headerToggle.click();
+                        // Marquez le menu comme déplié
+                        menuOpen = true;
+                    }
+                });
+
+                // Gérez l'événement de quitter la zone du menu
+                navBar.addEventListener('mouseleave', function() {
+                    // Vérifiez si le menu est actuellement déplié
+                    if (menuOpen) {
+                        // Activez à nouveau le basculement du menu en cliquant sur l'icône de bascule
+                        headerToggle.click();
+                        // Marquez le menu comme replié
+                        menuOpen = false;
+                    }
+                });
+
+                // Gérez l'événement du clic sur l'icône de bascule
+                headerToggle.addEventListener('click', function() {
+                    // Inversez l'état du menu (déplié ou replié)
+                    menuOpen = !menuOpen;
+                });
             });
-        });
-    </script>
+        </script>
     <?php
-   if($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Update
-    if(isset($_POST['update'])) {
-        $index = array_search(current($_POST['update']), $_POST['id']);
-        $id = $_POST['id'][$index];
-        $nom = $_POST['nom'][$index];
-        $email = $_POST['email'][$index];
-        $password = $_POST['password'][$index];
-        $isAdmin = in_array($id, $_POST['isAdmin']) ? 1 : 0;
-        $sql = "UPDATE user SET nom=?, email=?, isAdmin=" . $isAdmin . ($password ? ",password=?" : "") . " WHERE id=?";
-        $data = [$nom, $email];
-        if ($password) $data[] = $password;
-        $data[] = $id;
-        
-        $stmt = $GLOBALS["pdo"]->prepare($sql);
-        $stmt->execute($data);
-    }
+            // Update
+            if (isset($_POST['update'])) {
+                $index = array_search(current($_POST['update']), $_POST['id']);
+                $id = $_POST['id'][$index];
+                $nom = $_POST['nom'][$index];
+                $email = $_POST['email'][$index];
+                $password = $_POST['password'][$index];
+                $isAdmin = in_array($id, $_POST['isAdmin']) ? 1 : 0;
+                $sql = "UPDATE user SET nom=?, email=?, isAdmin=" . $isAdmin . ($password ? ",password=?" : "") . " WHERE id=?";
+                $data = [$nom, $email];
+                if ($password) $data[] = $password;
+                $data[] = $id;
 
-    // Delete
-    if(isset($_POST['delete'])) {
-        $idToDelete = current($_POST['delete']);
-        $sql = "DELETE FROM user WHERE id=?";
-        $stmt = $GLOBALS["pdo"]->prepare($sql);
-        $stmt->execute([$idToDelete]);
-    }
-}
+                $stmt = $GLOBALS["pdo"]->prepare($sql);
+                $stmt->execute($data);
+            }
+
+            // Delete
+            if (isset($_POST['delete'])) {
+                $idToDelete = current($_POST['delete']);
+                $sql = "DELETE FROM user WHERE id=?";
+                $stmt = $GLOBALS["pdo"]->prepare($sql);
+                $stmt->execute([$idToDelete]);
+            }
+        }
 
 
-echo "<h2>Liste des utilisateurs</h2>";
+        echo "<h2>Liste des utilisateurs</h2>";
 
-echo "<form action=\"panelAdmin.php\" method=\"POST\">";
-echo "<table class=\"table\">";
-echo "    <thead>";
-echo "        <tr>";
-echo "            <th>ID</th>";
-echo "            <th>Nom</th>";
-echo "            <th>Email</th>";
-echo "            <th>Mot de passe</th>";
-echo "            <th>Admin</th>"; 
-echo "            <th>Actions</th>";
-echo "        </tr>";
-echo "    </thead>";
-echo "    <tbody>";
+        echo "<form action=\"panelAdmin.php\" method=\"POST\">";
+        echo "<table class=\"table\">";
+        echo "    <thead>";
+        echo "        <tr>";
+        echo "            <th>ID</th>";
+        echo "            <th>Nom</th>";
+        echo "            <th>Email</th>";
+        echo "            <th>Mot de passe</th>";
+        echo "            <th>Admin</th>";
+        echo "            <th>Actions</th>";
+        echo "        </tr>";
+        echo "    </thead>";
+        echo "    <tbody>";
 
-$allUsers = $GLOBALS["pdo"]->query("SELECT * FROM user");
-while($userRow = $allUsers->fetch(PDO::FETCH_ASSOC)) {
-    echo "<tr>";
-    echo "<td><input type=\"text\" name=\"id[]\" value=\"" . $userRow['id'] . "\" readonly></td>";
-    echo "<td><input type=\"text\" name=\"nom[]\" value=\"" . $userRow['nom'] . "\"></td>";
-    echo "<td><input type=\"text\" name=\"email[]\" value=\"" . $userRow['email'] . "\"></td>";
-    echo "<td><input type=\"text\" name=\"password[]\" value=\"" . $userRow['password'] . "\"></td>";
-    $isUserAdmin = $userRow['isAdmin'] == 1 ? "checked" : "";
-echo "<td><input type=\"checkbox\" name=\"isAdmin[]\" value=\"" . $userRow['id'] . "\" $isUserAdmin></td>";  // Nouvelle colonne pour la case à cocher
+        $allUsers = $GLOBALS["pdo"]->query("SELECT * FROM user");
+        while ($userRow = $allUsers->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            echo "<td><input type=\"text\" name=\"id[]\" value=\"" . $userRow['id'] . "\" readonly></td>";
+            echo "<td><input type=\"text\" name=\"nom[]\" value=\"" . $userRow['nom'] . "\"></td>";
+            echo "<td><input type=\"text\" name=\"email[]\" value=\"" . $userRow['email'] . "\"></td>";
+            echo "<td><input type=\"text\" name=\"password[]\" value=\"" . $userRow['password'] . "\"></td>";
+            $isUserAdmin = $userRow['isAdmin'] == 1 ? "checked" : "";
+            echo "<td><input type=\"checkbox\" name=\"isAdmin[]\" value=\"" . $userRow['id'] . "\" $isUserAdmin></td>";  // Nouvelle colonne pour la case à cocher
 
-    echo "<td>";
-    echo "<button type=\"submit\" name=\"update[]\" value=\"" . $userRow['id'] . "\" class=\"btn btn-warning\">Modifier</button>";
-    echo " ";
-    echo "<button type=\"submit\" name=\"delete[]\" value=\"" . $userRow['id'] . "\" class=\"btn btn-danger\">Supprimer</button>";
-    echo "</td>";
-    echo "</tr>";
-}
-echo "    </tbody>";
-echo "</table>";
-echo "</form>";
-
-    echo $sql;
-
-  }  ?>
+            echo "<td>";
+            echo "<button type=\"submit\" name=\"update[]\" value=\"" . $userRow['id'] . "\" class=\"btn btn-warning\">Modifier</button>";
+            echo " ";
+            echo "<button type=\"submit\" name=\"delete[]\" value=\"" . $userRow['id'] . "\" class=\"btn btn-danger\">Supprimer</button>";
+            echo "</td>";
+            echo "</tr>";
+        }
+        echo "    </tbody>";
+        echo "</table>";
+        echo "</form>";
+    }  ?>
 
     <!-- Adding the Proviflix button -->
 

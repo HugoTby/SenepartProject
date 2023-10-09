@@ -121,7 +121,7 @@ if (isset($_POST["envoi"])) {
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn"></div>
                                 <button name="envoi" type="submit" class="login100-form-btn">
-                                    Connexion
+                                    S'inscrire
                                 </button></div>
                                 <div class="container-login100-form-btn m-t-20">
     <div class="wrap-login100-form-btn">

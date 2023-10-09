@@ -25,15 +25,20 @@ include("class/User.php");
 
 </head>
 
+
 <body id="body-pd">
 
 
 
 
     <?php
+    //connexion a la bdd
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+
+    //création de l'objet User
     $User = new User(null, null, null, null);
 
+    //redirection vers connexion si on est pas connecté
     if (!$User->isConnect()) {
         header("Location: index.php");
     }
@@ -111,13 +116,13 @@ include("class/User.php");
                     </a>
                 </div>
                 <?php
-if($User->isAdmin()) {
-    echo '<a href="panelAdmin.php" class="nav_link">
+                if ($User->isAdmin()) {
+                    echo '<a href="panelAdmin.php" class="nav_link">
         <i class="bx bx-cog nav_icon"></i>
         <span class="nav_name">Panel Admin</span>
     </a>';
-}
-?>
+                }
+                ?>
             </div> <a href="logout.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
         </nav>
     </div>
@@ -216,7 +221,6 @@ if($User->isAdmin()) {
 
 
 
-    <!-- Adding the Proviflix button -->
 
 </body>
 

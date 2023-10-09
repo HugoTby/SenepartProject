@@ -41,28 +41,35 @@ include("class/User.php");
 
 <body>
 
-<?php
-$GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
-$User = new User(null, null, null, null);
-$errorMessage = ""; // Variable pour stocker le message d'erreur
+    <?php
 
-if (isset($_POST["envoi"])) {
+    //connexion a la bdd
+    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
 
-    // Vérification du format d'email 
-/*    if (!filter_var($_POST["login"], FILTER_VALIDATE_EMAIL)) {
+    //création de l'objet user
+    $User = new User(null, null, null, null);
+    $errorMessage = ""; // Variable pour stocker le message d'erreur
+
+    //on vérifie si le bouton connexion est cliqué
+    //on connecté le User, si il y a une erreur on affiche mess d'erreur
+    if (isset($_POST["envoi"])) {
+
+        // Vérification du format d'email 
+        /*    if (!filter_var($_POST["login"], FILTER_VALIDATE_EMAIL)) {
         $errorMessage = "Format d'email incorrect.";
     } else {
- */       if ($User->seConnecter($_POST["login"], $_POST["password"])) {
+ */
+        if ($User->seConnecter($_POST["login"], $_POST["password"])) {
             header("Location: mainPage.php");
             exit; // Il est recommandé d'utiliser exit après header pour empêcher l'exécution de code supplémentaire
         } else {
             $errorMessage = "Email ou mot de passe incorrect.";
         }
     }
-//}
-?>
+    //}
+    ?>
 
-<!-- Vous pouvez ensuite afficher $errorMessage où vous le souhaitez dans votre code HTML -->
+    <!-- Vous pouvez ensuite afficher $errorMessage où vous le souhaitez dans votre code HTML -->
 
 
 
@@ -111,33 +118,34 @@ if (isset($_POST["envoi"])) {
                                 <div class="login100-form-bgbtn"></div>
                                 <button name="envoi" type="submit" class="login100-form-btn">
                                     Connexion
-                                </button></div>
-                                <div class="container-login100-form-btn m-t-20">
-    <div class="wrap-login100-form-btn">
-        <div class="login100-form-bgbtn"></div>
-        <a href="inscription.php" class="login100-form-btn">
-            Inscription
-        </a>
-        
-    </div>
-    <?php if (!empty($errorMessage)): ?>
-    <div class="error">
-        <?php echo $errorMessage; ?>
-    </div>
-<?php endif; ?>
-</div>
-
-
+                                </button>
                             </div>
+                            <div class="container-login100-form-btn m-t-20">
+                                <div class="wrap-login100-form-btn">
+                                    <div class="login100-form-bgbtn"></div>
+                                    <a href="inscription.php" class="login100-form-btn">
+                                        Inscription
+                                    </a>
+
+                                </div>
+                                <?php if (!empty($errorMessage)) : ?>
+                                    <div class="error">
+                                        <?php echo $errorMessage; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+
                         </div>
-
-
-                    </form>
                 </div>
-            </div>
-        </div>
+
+
     </form>
-    
+    </div>
+    </div>
+    </div>
+    </form>
+
 
 
 

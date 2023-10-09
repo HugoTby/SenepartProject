@@ -29,25 +29,31 @@ include("class/User.php");
 
 
     <?php
+    //connexion a la bdd
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+
+    //creation de l'objet user
     $User = new User(null, null, null,  null);
 
+    //redirection vers connexion si on est pas connecté
     if (!$User->isConnect()) {
         header("Location: index.php");
     }
 
+    //on récupère le password du user
     $sql = "SELECT * FROM user WHERE id = '" . $User->getId() . "'"; // Remplacez 'id' par la colonne appropriée utilisée pour identifier l'utilisateur
     $resultServ = $GLOBALS["pdo"]->query($sql);
     $userData = $resultServ->fetch();
-    $nomUtilisateur = $userData['nom'];
-    $emailUtilisateur = $userData['email'];
+    $password = $userData['password'];
+
+
 
 
 
 
 
     ?>
-     <header class="header" id="header">
+    <header class="header" id="header">
         <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
     </header>
     <div class="l-navbar" id="nav-bar">
@@ -64,13 +70,13 @@ include("class/User.php");
                     </a>
                 </div>
                 <?php
-if($User->isAdmin()) {
-    echo '<a href="panelAdmin.php" class="nav_link">
+                if ($User->isAdmin()) {
+                    echo '<a href="panelAdmin.php" class="nav_link">
         <i class="bx bx-cog nav_icon"></i>
         <span class="nav_name">Panel Admin</span>
     </a>';
-}
-?>
+                }
+                ?>
             </div> <a href="logout.php" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
         </nav>
     </div>
@@ -94,6 +100,9 @@ if($User->isAdmin()) {
 
 
         <?php
+        //on vérifie si le bouton envoie est cliqué
+        //on vérifie si les 2 nouveaux pass correspondent
+        //on vérifie que l'anvien pass correspond avec celui en bdd
         if (isset($_POST["envoi"])) {
             // Récupérer les valeurs du formulaire
             $oldPassword = $_POST["old_password"];
@@ -110,7 +119,7 @@ if($User->isAdmin()) {
             ";
             } else {
                 // Vérifier si l'ancien mot de passe est correct
-                if ($oldPassword == $passUtilisateur) {
+                if ($oldPassword == $password) {
                     // Mettre à jour le mot de passe dans la base de données
                     $User->setPassword($newPassword); // Vous devrez implémenter cette méthode dans votre classe User
                     // echo "<br><span style='display: block; text-align: center; background-color: #ff0000; color: #ffffff; padding: 5px;width: 300px;border-radius:5px;margin-left:50%;'>Le mot de passe a été changé avec succès.</span>";
@@ -212,7 +221,6 @@ if($User->isAdmin()) {
 
 
 
-    <!-- Adding the Proviflix button -->
 
 </body>
 

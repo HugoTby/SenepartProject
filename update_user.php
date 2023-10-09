@@ -2,6 +2,7 @@
 
 session_start();
 
+//api pour modifier le nom et mail du user
 try {
     $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
     $id_utilisateur = $_SESSION['id'];

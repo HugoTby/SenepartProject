@@ -17,6 +17,9 @@ class User
         $this->isAdmin_ = $admin;
     }
 
+    //permet de se connecter en passant en paramètre le mail et pass
+    //si le user existe on attribut toutes les propriétés à l'objet
+    //sinon return false
     public function seConnecter($email, $pass)
     {
         $requete = "SELECT * FROM `user` 
@@ -35,13 +38,14 @@ class User
             $this->nom_ = $tab['nom'];
             $this->email_ = $tab['email'];
             $this->isAdmin_ = $tab['isAdmin'] == 1 ? true : false;
-    
+
             return true;
         } else {
             return false;
         }
     }
 
+    //gère l'inscription
     public function CreateNewUser($email, $pass, $nom)
     {
         $requete = "SELECT * FROM user 
@@ -64,6 +68,8 @@ class User
         }
     }
 
+
+    //vérifie si l'utilisateur est déjà connecté
     public function isConnect()
     {
         if (isset($_SESSION['id'])) {
