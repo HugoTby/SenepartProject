@@ -51,24 +51,16 @@ Les fichiers et répertoires sont organisés comme suit:
   - `._iconic` : Fichier caché associé à Iconic.
   - `._poppins` : Fichier caché associé à la police Poppins.
 
-  
-- **./addons**
-  - `readme.md` : Documentation du code.
-  - `lawrence.sql` : Export de la base de données pour importation dans PhpMyAdmin.
-
-- **./bootstrap**
-  - Contient les fichiers relatifs à Bootstrap.
-
-
-
 - **./images**
-  - `bg.jpg` : Image d'arrière-plan pour les pages de connexion et d'inscription.
-
+  - `bg-01.jpg` : Image d'arrière-plan potentiellement utilisée pour différentes sections ou variations de pages.
+  - `icons/` : Dossier contenant diverses icônes pour l'interface utilisateur ou d'autres éléments graphiques.
+  - `._bg-01.jpg` : Fichier caché associé à bg-01.jpg, lié à des métadonnées spécifiques au système (souvent macOS).
+  - `._icons` : Fichier caché associé au dossier icons.
+- **./vendor**
+  - `Tout un tas de fichier pour les animations notammenet celles de la navbar`
 - **./js**
-  - `bootstrap.js` : JavaScript pour les templates Bootstrap.
-  - `jquery.min.js` : Bibliothèque JavaScript jQuery.
-  - `main.js` : Scripts généraux du site.
-  - `website.js` : Scripts pour la navbar et gestion de pop-ups.
+    - `main.js` : Scripts généraux du site.
+ 
 
 
 
