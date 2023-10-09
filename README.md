@@ -33,6 +33,25 @@ Pour accéder à cette base de données, voici les identifiants:
 
 Les fichiers et répertoires sont organisés comme suit:
 
+- **./class**
+  - `User.php` : Code de la classe utilisateur.
+
+- **./css**
+  - `main.css` : Styles principaux pour les typographies, les éléments de formulaire, les boutons, les alertes de validation, et les éléments spécifiques à la connexion. Inclut également des styles pour différentes tailles d'écran (responsive).
+  - `util.css` : Styles de base pour le responsive design et des utilitaires généraux.
+
+- **./fonts**
+  - `font-awesome-4.7.0/` : Dossier contenant les polices et les fichiers associés pour Font Awesome version 4.7.0, une   
+ collection d'icônes utilisée pour la conception web.
+  - `iconic/` : Dossier contenant les polices et fichiers associés pour Iconic, une autre collection d'icônes pour la 
+ conception web.
+  - `poppins/` : Dossier contenant les variations de la police Poppins, une police de caractères sans-serif.
+  - `._font-awesome-4.7.0` : Fichier caché associé à Font Awesome. Peut-être lié à la configuration ou à des métadonnées s 
+ pécifiques au système.
+  - `._iconic` : Fichier caché associé à Iconic.
+  - `._poppins` : Fichier caché associé à la police Poppins.
+
+  
 - **./addons**
   - `readme.md` : Documentation du code.
   - `lawrence.sql` : Export de la base de données pour importation dans PhpMyAdmin.
@@ -40,15 +59,7 @@ Les fichiers et répertoires sont organisés comme suit:
 - **./bootstrap**
   - Contient les fichiers relatifs à Bootstrap.
 
-- **./css**
-  - `bootstrap.css` : Styles pour les templates Bootstrap.
-  - `font-awesome.min.css` : Styles pour les polices du site.
-  - `login.css` : Styles de la page de connexion.
-  - `responsive.css` : Styles pour le responsive design.
-  - `style.css` : Styles généraux du site.
-  - `style.css.map` : Styles pour l'affichage cartographique.
-  - `style.scss` : Fichier SCSS (description à compléter).
-  - `website.css` : Styles (description à compléter).
+
 
 - **./images**
   - `bg.jpg` : Image d'arrière-plan pour les pages de connexion et d'inscription.
@@ -59,8 +70,7 @@ Les fichiers et répertoires sont organisés comme suit:
   - `main.js` : Scripts généraux du site.
   - `website.js` : Scripts pour la navbar et gestion de pop-ups.
 
-- **./utils**
-  - `User.php` : Code de la classe utilisateur.
+
 
 ### Fichiers Principaux :
 
