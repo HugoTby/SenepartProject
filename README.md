@@ -18,12 +18,12 @@ Pour accéder à cette base de données, voici les identifiants:
 
 Lawrence
 │
-└── user
-├── idUser : int (clé primaire)
-├── nom : varchar(30)
-├── email : varchar(300)
-├── password : varchar(30)
-└── isAdmin : tinyint(1)
+ user
+     idUser : int (clé primaire)
+     nom : varchar(30)
+     email : varchar(300)
+     password : varchar(30)
+     isAdmin : tinyint(1)
 
 
 ## 📁 Structure du Code
