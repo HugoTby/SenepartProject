@@ -16,14 +16,17 @@ Pour accéder à cette base de données, voici les identifiants:
 
 ### Structure de la base de données
 
-Lawrence
-│
- user :
-     -idUser : int (clé primaire)
-     -nom : varchar(30)
-     -email : varchar(300)
-     -password : varchar(30)
-     -isAdmin : tinyint(1)
+**Lawrence**
+
+**Table : user**
+
+| Champ     | Type           | Spécificité          |
+|-----------|----------------|----------------------|
+| idUser    | int            | Clé primaire         |
+| nom       | varchar(30)    |                      |
+| email     | varchar(300)   |                      |
+| password  | varchar(30)    |                      |
+| isAdmin   | tinyint(1)     |                      |
 
 
 ## 📁 Structure du Code
