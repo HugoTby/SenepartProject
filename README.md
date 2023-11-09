@@ -1,12 +1,12 @@
 # Le Projet Senepart
 
-Le projet Senepart est une collaboration entre **Faustin**, **Hugo** et **Mathias**, ayant pour but d'offrir une expérience utilisateur optimale dans le domaine de la géolocalisation.
+Le projet Senepart est une collaboration entre **Faustin**, **Hugo** et **Mathias** pour la première rotation, la seconde ayant pour membres **Faustin**, **Edouard** et **Joris**, ayant pour but d'offrir une expérience utilisateur optimale dans le domaine de la géolocalisation.
 
 ## 🌐 Adresses IP des Machines Virtuelles 
 
 Les machines virtuelles dédiées au projet sont accessibles via les adresses IP suivantes:
-- **Site Web** : `192.168.64.84`
-- **Base de Données** : `192.168.64.213`
+- **Site Web** : `192.168.65.68`
+- **Base de Données** : `192.168.65.252`
 
 ## 🗃 Base de Données : Lawrence 
 
