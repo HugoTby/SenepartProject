@@ -42,7 +42,7 @@ include("class/User.php");
 <body>
 
 <?php
-$GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+$GLOBALS["pdo"] = new PDO('mysql:host=192.168.65.252;dbname=Lawrence', 'root', 'root');
 
 $User = new User(null, null, null, null);
 $errorMsg = '';

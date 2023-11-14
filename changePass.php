@@ -30,7 +30,7 @@ include("class/User.php");
 
     <?php
     //connexion a la bdd
-    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.65.252;dbname=Lawrence', 'root', 'root');
 
     //creation de l'objet user
     $User = new User(null, null, null,  null);

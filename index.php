@@ -44,11 +44,12 @@ include("class/User.php");
     <?php
 
     //connexion a la bdd
-    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.64.213;dbname=Lawrence', 'root', 'root');
+    $GLOBALS["pdo"] = new PDO('mysql:host=192.168.65.252;dbname=Lawrence', 'root', 'root');
 
     //création de l'objet user
     $User = new User(null, null, null, null);
     $errorMessage = ""; // Variable pour stocker le message d'erreur
+    echo $_SESSION['Connexion'];
 
     //on vérifie si le bouton connexion est cliqué
     //on connecté le User, si il y a une erreur on affiche mess d'erreur
@@ -61,7 +62,6 @@ include("class/User.php");
  */
         if ($User->seConnecter($_POST["login"], $_POST["password"])) {
             header("Location: mainPage.php");
-            exit; // Il est recommandé d'utiliser exit après header pour empêcher l'exécution de code supplémentaire
         } else {
             $errorMessage = "Email ou mot de passe incorrect.";
         }
